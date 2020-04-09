@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ThemeProvider } from "@chakra-ui/core";
+import { customTheme } from "./theme";
+
+import Home from "./pages/Home";
 
 function App() {
+  const client = new ApolloClient({
+    uri: "https://ta9m5bno.api.sanity.io/v1/graphql/production/default"
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={customTheme}>
+        <Router>
+          <Switch>
+            <Route path="" component={Home} />
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 
